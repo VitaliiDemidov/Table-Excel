@@ -3,24 +3,27 @@ const CODES = {
   z: 90,
 };
 
-function toCell() {
+function toCell(_, col) {
   return `
-  <div class="cell" contenteditable>
+  <div class="cell" contenteditable data-col="${col}">
   </div>`;
 }
 function toChart(_, index) {
   return String.fromCharCode(CODES.a + index);
 }
 
-function toColumn(el) {
+function toColumn(el, index) {
   return `
-  <div class="column">
-  ${el}
-  </div>`;
+  <div class="column" data-type='resizable'data-col="${index}" >${el}
+<div class="col-resize" data-resize='column'></div></div>`;
 }
 function createRow(index, content) {
-  return `<div class='row'>
-  <div class='row-info'>${index ? index : ''}</div>
+  const resizer = index
+    ? `<div class='row-resize' data-resize='row'></div>`
+    : '';
+  return `<div class='row' data-type='resizable'>
+  <div class='row-info'>${index ? index : ''}${resizer}
+  </div>
   <div class='row-data'>${content}</div>
   </div>`;
 }
@@ -40,7 +43,6 @@ export function createTabale(rowsCount = 15) {
     const cells = new Array(colsCount).fill('').map(toCell).join('');
     rows.push(createRow(i + 1, cells));
   }
-  console.log(rows);
 
   return rows.join('');
 }
