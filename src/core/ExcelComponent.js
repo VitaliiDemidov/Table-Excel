@@ -9,7 +9,7 @@ export class ExcelComponent extends DomListener {
 
     this.prepare();
   }
-  // configurate component before init
+  // configuring component before init
   prepare() {}
   // returns template of component
   toHTML() {
@@ -24,7 +24,7 @@ export class ExcelComponent extends DomListener {
     const unsub = this.emitter.subscribe(event, fn);
     this.unsubscribes.push(unsub);
   }
-  // initialize component nad add DOM listiner
+  // initialize component nad add DOM listener
   init() {
     this.initDOMListeners();
   }
