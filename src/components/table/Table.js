@@ -1,5 +1,5 @@
 import { ExcelComponent } from '@core/ExcelComponent';
-import { createTabale } from './table-template';
+import { createTable } from './table-template';
 import { resizeHandler } from './table-size';
 import {
   shouldResize,
@@ -10,6 +10,7 @@ import {
 } from './table-functions';
 import { TableSelection } from './TableSelection';
 import { $ } from '@core/dom';
+import * as actions from '@/redux/actions';
 
 export class Table extends ExcelComponent {
   static className = 'excel__table';
@@ -21,7 +22,7 @@ export class Table extends ExcelComponent {
     });
   }
   toHTML() {
-    return createTabale();
+    return createTable(20, this.store.getState());
   }
   prepare() {
     this.selection = new TableSelection();
@@ -36,9 +37,9 @@ export class Table extends ExcelComponent {
     this.$on('formula:done', () => {
       this.selection.current.focus();
     });
-    this.$subscribe((state) => {
-      console.log('table state', state);
-    });
+    // this.$subscribe((state) => {
+    //   console.log('table state', state);
+    // });
   }
   selectCell($cell) {
     this.selection.select($cell);
@@ -49,7 +50,7 @@ export class Table extends ExcelComponent {
     try {
       const data = await resizeHandler(this.$root, event);
       console.log('resize', data);
-      this.$dispatch({ type: 'TABLE_RESIZE', data });
+      this.$dispatch(actions.tableResize(data));
     } catch (e) {
       console.warn('error', e.message);
     }

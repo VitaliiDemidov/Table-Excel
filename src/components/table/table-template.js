@@ -36,7 +36,9 @@ function createRow(index, content) {
   </div>`;
 }
 
-export function createTabale(rowsCount = 15) {
+export function createTable(rowsCount = 15, state = {}) {
+  console.log('store', state);
+
   const colsCount = CODES.z - CODES.a + 1;
   const rows = [];
 
